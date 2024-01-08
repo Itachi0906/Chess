@@ -32,7 +32,7 @@ int piece_value(char piece) {
 	}
 }
 
-std::vector <std::vector<int>> board_pos(std::string& positions) {
+std::vector <std::vector<int>> fen_parse::board_pos(std::string& positions) {
 	std::vector <std::vector<int>> board(8, std::vector<int>(8, 0));
 	int row = 0, col = 0;
 	for (char c : positions) {
@@ -45,6 +45,42 @@ std::vector <std::vector<int>> board_pos(std::string& positions) {
 		}
 		else {
 			board[row][col] = piece_value(c);
+			if (piece_value(c) == 9) {
+				pawn_w.push_back({row,col});
+			}
+			else if (piece_value(c) == 10) {
+				knight_w.push_back({ row,col });
+			}
+			else if (piece_value(c) == 11) {
+				rook_w.push_back({ row,col });
+			}
+			else if (piece_value(c) == 12) {
+				bishop_w.push_back({ row,col });
+			}
+			else if (piece_value(c) == 13) {
+				queen_w.push_back({ row,col });
+			}
+			else if (piece_value(c) == 14) {
+				king_w.push_back({ row,col });
+			}
+			else if (piece_value(c) == 17) {
+				pawn_b.push_back({ row,col });
+			}
+			else if (piece_value(c) == 18) {
+				knight_b.push_back({ row,col });
+			}
+			else if (piece_value(c) == 19) {
+				rook_b.push_back({ row,col });
+			}
+			else if (piece_value(c) == 20) {
+				bishop_b.push_back({ row,col });
+			}
+			else if (piece_value(c) == 21) {
+				queen_b.push_back({ row,col });
+			}
+			else if (piece_value(c) == 22) {
+				king_b.push_back({ row,col });
+			}
 			col++;
 		}
 	}
@@ -55,6 +91,8 @@ std::vector <std::vector<int>> board_pos(std::string& positions) {
 		}
 		std::cout << std::endl;
 	}
+
+
 
 	return board;
 }

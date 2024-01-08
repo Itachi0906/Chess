@@ -14,6 +14,82 @@ std::unordered_map<int, SDL_Texture* > mp;
 std::vector<const char*> pieces_name = { "vendor/images/bB.png","vendor/images/bK.png","vendor/images/bN.png","vendor/images/bP.png","vendor/images/bQ.png","vendor/images/bR.png","vendor/images/wB.png","vendor/images/wK.png","vendor/images/wN.png","vendor/images/wP.png","vendor/images/wQ.png","vendor/images/wR.png" };
 std::vector<int> piece_values = { 20 , 22 , 18 , 17 , 21 , 19 , 12 , 14 , 10 , 9 , 13 , 11 };
 SDL_Rect drect;
+int r, c,st_row,st_col,end_row,end_col;
+int piece_moved;
+std::pair <int, int> pos = { -1,-1 };
+std::vector<std::pair<int,int>> clicks;
+std::vector<std::vector<int>> piece_pos;
+
+
+void move_click() {
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	r = y / 50;
+	c = x / 50;
+	if (pos == std::make_pair(r, c)) {
+		pos = { -1,-1 };
+		clicks = {};
+	}
+	else {
+		pos =std:: make_pair(r, c);
+		clicks.push_back(pos);
+	}
+	if (clicks.size() == 2) {
+		st_row = clicks[0].first;
+		st_col = clicks[0].second;
+		end_row = clicks[1].first;
+		end_col = clicks[1].second;
+		if (fp->board[st_row][st_col] != 0) {
+			piece_moved = fp->board[st_row][st_col];
+			fp->board[end_row][end_col] = piece_moved;
+			fp->board[st_row][st_col] = 0;
+			if (piece_moved == 9) {
+				piece_pos = fp->pawn_w;
+			}
+			else if (piece_moved == 10) {
+				piece_pos = fp->knight_w;
+			}
+			else if (piece_moved == 11) {
+				piece_pos = fp->rook_w;
+			}
+			else if (piece_moved == 12) {
+				piece_pos = fp->bishop_w;
+			}
+			else if (piece_moved == 13) {
+				piece_pos = fp->queen_w;
+			}
+			else if (piece_moved == 14) {
+				piece_pos = fp->king_w;
+			}
+			else if (piece_moved == 17) {
+				piece_pos = fp->pawn_b;
+			}
+			else if (piece_moved == 18) {
+				piece_pos = fp->knight_b;
+			}
+			else if (piece_moved == 19) {
+				piece_pos = fp->rook_b;
+			}
+			else if (piece_moved == 20) {
+				piece_pos = fp->bishop_b;
+			}
+			else if (piece_moved == 21) {
+				piece_pos = fp->queen_b;
+			}
+			else if (piece_moved == 22) {
+				piece_pos = fp->king_b;
+			}
+			for (auto square : piece_pos) {
+				if (clicks[0] == std::make_pair(square[0], square[1])) {
+					square[0] = clicks[1].first;
+					square[1] = clicks[1].second;
+				}
+			}
+		}
+			pos = { -1,-1 };
+			clicks = {};
+	}
+}
 
 void board_pieces(SDL_Renderer* renderer) {
 	drect.w = 49;
@@ -116,6 +192,9 @@ int main(int argc, char* argv[]) {
 				if (event.type == SDL_QUIT)
 				{
 					running = false;
+				}
+				else if (event.type == SDL_MOUSEBUTTONDOWN) {
+					move_click();
 				}
 			}
 			createBoard(renderer);
