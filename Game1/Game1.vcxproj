@@ -134,15 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Move.cpp" />
-    <ClCompile Include="src\Gamestate.cpp" />
-    <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Move.h" />
-    <ClInclude Include="src\Gamestate.h" />
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\fen_parse.h" />
     <ClInclude Include="vendor\SDL2-2.28.4\include\begin_code.h" />
     <ClInclude Include="vendor\SDL2-2.28.4\include\close_code.h" />
     <ClInclude Include="vendor\SDL2-2.28.4\include\SDL.h" />
@@ -236,6 +228,10 @@
     <Image Include="vendor\images\wP.png" />
     <Image Include="vendor\images\wQ.png" />
     <Image Include="vendor\images\wR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fen_parse.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
